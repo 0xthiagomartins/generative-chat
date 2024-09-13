@@ -6,3 +6,8 @@ pydantic
 pytest
 requests
 uvicorn
+python-jose[cryptography]
+passlib[bcrypt]
+python-multipart
+sqlmodel-controller[all]
+sqlmodel

@@ -46,6 +46,9 @@ generative-chat/
 To run the application, use the following command:
 
 ```
+streamlit run src/client/app.py
+```
+
 ## TODO: Advanced Features and Improvements
 
 1. User Authentication and Authorization:
@@ -121,5 +124,10 @@ To run the application, use the following command:
     - Create comprehensive user documentation
     - Develop technical documentation for developers
     - Implement in-app tooltips and guided tours for new users
+
+## Features
+- Interactive chat interface
+- Explanation page detailing how the application works
+- Server health check
 
 These features and improvements will significantly enhance your generative chat application, making it more secure, scalable, and feature-rich. Implement them incrementally based on your priorities and user needs.

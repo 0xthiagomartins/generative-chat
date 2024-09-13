@@ -1,17 +1,29 @@
 from fastapi import FastAPI
-from pydantic import BaseModel
+from .routers import chat, user, auth
+from sqlmodel import SQLModel, create_engine
+from sqlmodel_controller import set_engine
+
+# Create a SQLite engine
+sqlite_file_name = "database.db"
+sqlite_url = f"sqlite:///{sqlite_file_name}"
+
+# Create the engine
+engine = create_engine(sqlite_url, echo=True)
 
 app = FastAPI()
 
+app.include_router(chat.router)
+app.include_router(user.router)
+app.include_router(auth.router)
 
-class Message(BaseModel):
-    content: str
 
+@app.on_event("startup")
+async def startup_event():
+    # Set the engine for sqlmodel-controller
+    set_engine(engine)
 
-@app.post("/chat")
-async def chat(message: Message):
-    # This is a simple echo response for testing
-    return {"response": f"Server received: {message.content}"}
+    # Create the database tables
+    SQLModel.metadata.create_all(engine)
 
 
 @app.get("/health")
