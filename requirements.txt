@@ -1,0 +1,8 @@
+streamlit
+langchain
+openai
+fastapi
+pydantic
+pytest
+requests
+uvicorn
