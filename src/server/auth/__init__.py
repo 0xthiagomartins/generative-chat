@@ -9,5 +9,3 @@ authenticate_user = Authenticator.authenticate_user
 create_user = Authenticator.create_user
 create_access_token = Authorizer.create_access_token
 get_current_user = Authorizer.get_current_user
-get_user_hash = Authorizer.get_user_hash
-get_current_user_with_hash = Authorizer.get_current_user_with_hash
