@@ -3,6 +3,7 @@ from pages.auth_page import show_auth_page
 from pages.chat_page import show_chat_page
 from pages.how_it_works_page import show_how_it_works_page
 from pages.pricing_page import show_pricing_page
+from pages.settings_page import show_settings_page
 from configuration import APP_TITLE, APP_ICON
 
 
@@ -18,7 +19,9 @@ def main():
 def show_main_page():
     st.title(APP_TITLE)
 
-    page = st.sidebar.radio("Navigation", ["Chat", "How It Works", "Pricing"])
+    page = st.sidebar.radio(
+        "Navigation", ["Chat", "How It Works", "Pricing", "Settings"]
+    )
 
     if page == "Chat":
         show_chat_page()
@@ -26,6 +29,8 @@ def show_main_page():
         show_how_it_works_page()
     elif page == "Pricing":
         show_pricing_page()
+    elif page == "Settings":
+        show_settings_page()
 
     if st.sidebar.button("Logout"):
         st.session_state.pop("access_token", None)
