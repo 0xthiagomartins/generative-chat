@@ -2,7 +2,7 @@ streamlit
 langchain
 openai
 fastapi
-pydantic
+pydantic[email]
 pytest
 requests
 uvicorn
