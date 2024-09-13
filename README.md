@@ -43,10 +43,10 @@ generative-chat/
    ```
 
 ## Running the application
-To run the application, use the following command:
+To run the application, use the following command from the project root directory:
 
 ```
-streamlit run src/client/app.py
+python run_app.py
 ```
 
 ## TODO: Advanced Features and Improvements

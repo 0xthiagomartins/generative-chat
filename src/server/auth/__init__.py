@@ -2,7 +2,6 @@ from .authenticator import Authenticator
 from .authorizer import Authorizer
 
 
-# Expose the methods as module-level functions for backward compatibility
 verify_password = Authenticator.verify_password
 get_user = Authenticator.get_user
 authenticate_user = Authenticator.authenticate_user

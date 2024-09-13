@@ -20,3 +20,4 @@ __pycache__
 *.pyd
 *.pyw
 database.db
+.env

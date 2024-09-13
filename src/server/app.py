@@ -1,6 +1,6 @@
+from . import configuration
 from fastapi import FastAPI
 from .routers import chat, user, auth
-from .connection import engine  # Import the engine from your connection module
 
 app = FastAPI()
 
@@ -11,7 +11,6 @@ app.include_router(auth.router)
 
 @app.on_event("startup")
 async def startup_event():
-    # Create all tables
     from . import connection
 
 
