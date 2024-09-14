@@ -1,9 +1,7 @@
 from fastapi import APIRouter, Depends, HTTPException
 from pydantic import BaseModel
-from .. import auth
+from .. import auth, orm
 from ..chat import ChatBot
-from .. import orm
-from typing import List
 
 router = APIRouter()
 
@@ -16,6 +14,11 @@ class ChatMessageCreate(BaseModel):
 
 class ConversationCreate(BaseModel):
     title: str
+
+
+class ModelChange(BaseModel):
+    conversation_id: int
+    new_model: str
 
 
 @router.post("/conversations", tags=["chat"])
@@ -60,3 +63,17 @@ async def get_chat_history(
 @router.post("/chat/image", tags=["chat"])
 async def generate_image():
     return
+
+
+@router.post("/chat/change_model", tags=["chat"])
+async def change_model(
+    model_change: ModelChange, current_user: dict = Depends(auth.get_current_user)
+):
+    chat_bot = ChatBot()
+    success = chat_bot.change_model(
+        model_change.conversation_id, model_change.new_model
+    )
+    if success:
+        return {"message": "Model changed successfully"}
+    else:
+        raise HTTPException(status_code=404, detail="Conversation not found")

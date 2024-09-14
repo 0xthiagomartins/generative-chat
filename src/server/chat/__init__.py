@@ -1,5 +1,10 @@
 from .langchain_service import LangChainService
 from .. import orm
+from langchain_core.chat_history import (
+    BaseChatMessageHistory,
+    InMemoryChatMessageHistory,
+)
+from langchain_core.runnables.history import RunnableWithMessageHistory
 
 
 class ChatBot:
@@ -54,3 +59,15 @@ class ChatBot:
         return self.langchain_service.get_response(
             self.conversations[conversation_id], message
         )
+
+    def change_model(self, conversation_id: int, new_model: str):
+        if conversation_id not in self.conversations:
+            return False
+        old_conversation = self.conversations[conversation_id]
+        new_conversation = self.langchain_service.start_new_conversation(new_model)
+        new_conversation.memory = old_conversation.memory
+        orm.conversations.update(
+            by="id", value=conversation_id, data={"conversation": new_conversation}
+        )
+        self.conversations[conversation_id] = new_conversation
+        return True

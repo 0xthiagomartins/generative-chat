@@ -97,3 +97,15 @@ def get_conversations():
     if response.status_code == 200:
         return response.json()
     return []
+
+
+def change_chat_model(conversation_id: int, new_model: str):
+    headers = {"Authorization": f"Bearer {st.session_state.access_token}"}
+    response = requests.post(
+        f"{BACKEND_URL}/chat/change_model",
+        json={"conversation_id": conversation_id, "new_model": new_model},
+        headers=headers,
+    )
+    if response.status_code == 200:
+        return response.json()
+    return None
