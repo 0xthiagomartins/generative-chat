@@ -1,8 +1,5 @@
-from . import configuration
 from fastapi import FastAPI
 from .routers import chat, user, auth
-from sqlmodel import SQLModel
-from .connection import engine
 from dotenv import load_dotenv
 import os
 
@@ -22,8 +19,7 @@ app.include_router(auth.router)
 
 @app.on_event("startup")
 async def startup_event():
-    # Create all tables
-    SQLModel.metadata.create_all(engine)
+    from . import orm
 
 
 @app.get("/health")
