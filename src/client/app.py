@@ -12,9 +12,9 @@ def main():
     # Get user settings
     if "access_token" in st.session_state:
         user_settings = get_user_settings()
-        theme = user_settings.get("theme", "light") if user_settings else "light"
+        theme = user_settings.get("theme", "dark") if user_settings else "dark"
     else:
-        theme = "light"
+        theme = "dark"
 
     # Set page config
     st.set_page_config(
