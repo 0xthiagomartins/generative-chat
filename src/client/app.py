@@ -5,10 +5,55 @@ from pages.how_it_works_page import show_how_it_works_page
 from pages.pricing_page import show_pricing_page
 from pages.settings_page import show_settings_page
 from configuration import APP_TITLE, APP_ICON
+from utils.api_client import get_user_settings
 
 
 def main():
-    st.set_page_config(page_title=APP_TITLE, page_icon=APP_ICON, layout="wide")
+    # Get user settings
+    if "access_token" in st.session_state:
+        user_settings = get_user_settings()
+        theme = user_settings.get("theme", "light") if user_settings else "light"
+    else:
+        theme = "light"
+
+    # Set page config
+    st.set_page_config(
+        page_title=APP_TITLE,
+        page_icon=APP_ICON,
+        initial_sidebar_state="expanded",
+    )
+
+    # Apply theme using custom CSS
+    if theme == "dark":
+        st.markdown(
+            """
+        <style>
+        .stApp {
+            background-color: #0E1117;
+            color: #FAFAFA;
+        }
+        .stSidebar {
+            background-color: #262730;
+        }
+        </style>
+        """,
+            unsafe_allow_html=True,
+        )
+    else:
+        st.markdown(
+            """
+        <style>
+        .stApp {
+            background-color: #FFFFFF;
+            color: #000000;
+        }
+        .stSidebar {
+            background-color: #F0F2F6;
+        }
+        </style>
+        """,
+            unsafe_allow_html=True,
+        )
 
     if "access_token" not in st.session_state:
         show_auth_page()
