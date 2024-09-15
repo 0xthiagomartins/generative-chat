@@ -125,9 +125,26 @@ python run_app.py
     - Develop technical documentation for developers
     - Implement in-app tooltips and guided tours for new users
 
-## Features
-- Interactive chat interface
-- Explanation page detailing how the application works
-- Server health check
+## Best Practices
+
+1. API Key Security:
+   - Store API keys securely using environment variables or a secrets manager.
+   - Never hard-code API keys in your scripts.
+
+2. Scalability:   
+   - If expecting high traffic, consider using more robust databases like PostgreSQL or MongoDB.
+   - Implement caching mechanisms to reduce redundant API calls.
+
+3. Concurrency:
+   - Handle concurrent access to the database gracefully, especially if multiple users interact simultaneously.
+
+4. Logging:
+   - Implement logging to monitor chatbot interactions and troubleshoot issues.
+
+5. Testing:
+   - Write unit tests for different components to ensure reliability.
+
+6. Documentation:
+   - Document your code and APIs for easier maintenance and scalability.
 
 These features and improvements will significantly enhance your generative chat application, making it more secure, scalable, and feature-rich. Implement them incrementally based on your priorities and user needs.
