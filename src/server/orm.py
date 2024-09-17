@@ -13,7 +13,6 @@ class User(BaseID, table=True):
     full_name: str = F("")
     is_active: bool = F(True)
     salt: str = F(default_factory=lambda: secrets.token_hex(16))
-    conversations: list["Conversation"] = Relationship(back_populates="user")
     default_text_model: str = F("gpt-3.5-turbo")
     default_image_model: str = F("dall-e-3")
     theme: str = F("dark")
@@ -23,23 +22,27 @@ class User(BaseID, table=True):
     storage_used: int = F(0)
     storage_limit: int = F(1000000000)  # unit: bytes
 
+    conversations: list["Conversation"] = Relationship(back_populates="user")
+
 
 class Conversation(BaseID, table=True):
     __tablename__ = "conversations"
 
     user_id: int = F(foreign_key="users.id")
     title: str = F("New Conversation")
+
+    messages: list["ConversationMessage"] = Relationship(back_populates="conversation")
     user: User = Relationship(back_populates="conversations")
-    messages: list["ChatMessage"] = Relationship(back_populates="conversation")
 
 
-class ChatMessage(BaseID, table=True):
-    __tablename__ = "chat_messages"
+class ConversationMessage(BaseID, table=True):
+    __tablename__ = "conversation_messages"
 
     conversation_id: int = F(foreign_key="conversations.id")
     content: str
     timestamp: datetime = F(default_factory=datetime.utcnow)
     is_from_user: bool
+
     conversation: Conversation = Relationship(back_populates="messages")
 
 
@@ -54,6 +57,6 @@ DATABASE_URL = "sqlite:///./database.db"
 engine = create_engine(DATABASE_URL, echo=True)
 # Controllers
 users = Controller[User](engine=engine)
-chat_messages = Controller[ChatMessage](engine=engine)
+messages = Controller[ConversationMessage](engine=engine)
 conversations = Controller[Conversation](engine=engine)
 SQLModel.metadata.create_all(engine)

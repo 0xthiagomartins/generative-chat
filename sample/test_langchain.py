@@ -18,34 +18,12 @@ from langchain_core.runnables.history import RunnableWithMessageHistory
 import os
 from typing import Dict, Tuple, Any
 
-MODELS: dict[str, BaseChatModel] = {
-    "gpt-3.5-turbo": ChatOpenAI,
-    "gpt-4": ChatOpenAI,
-    "gpt-4-turbo": ChatOpenAI,
-    "gpt-4-turbo-preview": ChatOpenAI,
-    "claude-3-opus": ChatAnthropic,
-    "claude-3-sonnet": ChatAnthropic,
-    "claude-3-haiku": ChatAnthropic,
-    "gemini-1.5-pro": ChatGoogleGenerativeAI,
-    "gemini-1.5-pro-preview": ChatGoogleGenerativeAI,
-}
+
 SYSTEM_MESSAGE = "You are a helpful AI assistant."
 PERSIST_DIRECTORY = "./chroma_db"
 
 
-class Model:
-    def __init__(self, name: str, api_key: str = None):
-        self.name: str = name
-        self.chat: BaseChatModel = self.get_chat(name, api_key)
-        self.can_send_attachments: bool = False
-
-    def get_chat(self, name: str, api_key: str = None) -> BaseChatModel:
-        assert name in MODELS, f"Model {name} not available"
-        api_key = os.getenv(f"{name.upper().replace('-', '_')}_API_KEY")
-        return MODELS[name](model_name=name, api_key=api_key)
-
-
-class Chatbot:
+class Chat:
     def __init__(self):
         self.current_model: Model = Model("gpt-4")
         self.conversation = self._create_conversation()
